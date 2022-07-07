@@ -1,0 +1,89 @@
+esphome:
+  name: esphome01
+  includes:
+    - F:\Code\Libraries\DFRobot_SHT20-master\DFRobot_SHT20.h
+    - F:\Code\Libraries\DFRobot_SHT20-master\DFRobot_SHT20.cpp
+    - SHT20.h
+
+esp8266:
+  board: nodemcuv2
+  board_flash_mode: dout
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+   password: "ajh14113"
+
+ota:
+   password: "ajh14113"
+
+wifi:
+   ssid: "Red5"
+   password: "8012254722"
+
+# Enable fallback hotspot (captive portal) in case wifi connection fails
+#ap:
+   #ssid: "Red Guest"
+   #password: "ajh14113"
+
+#captive_portal:
+
+# Example configuration entry
+i2c:
+  sda: 4
+  scl: 5
+  scan: true
+  frequency: 400kHz
+
+#Sensors should be specified as follows
+   #platform: bmp280
+      #i2c_id: bus_a
+      #address: 0x76
+
+sensor:
+  - platform: custom
+    lambda: |-
+      auto sht20 = new SHT20();
+      App.register_component(sht20);
+      return {sht20->temperature_sensor, sht20->humidity_sensor};
+    sensors:
+    - name: "Temperature"
+      id: inside_temp
+      unit_of_measurement: °C
+      accuracy_decimals: 2
+      on_value:
+        - mqtt.publish:
+            topic: "esphome/sht20/temperature"
+            payload: !lambda |-
+              return to_string(id(inside_temp).state);
+    - name: "Humidity"
+      id: inside_humidity
+      unit_of_measurement: "%"
+      accuracy_decimals: 2
+      on_value:
+        - mqtt.publish:
+            topic: "esphome/sht20/humidity"
+            payload: !lambda |-
+              return to_string(id(inside_humidity).state);
+
+# Example configuration entry
+mqtt:
+  broker: 192.168.55.200
+  #username:
+  #password:
+
+# sensor 1:
+#   platform: mqtt
+#   name: "Temperature"
+#   state_topic: "sht20/temperature"
+#   qos: 0
+#   unit_of_measurement: "ºC"
+
+# sensor 2:
+#   platform: mqtt
+#   name: "Humidity"
+#   state_topic: "sht20/humidity"
+#   qos: 0
+#   unit_of_measurement: "%"
