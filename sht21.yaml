@@ -14,19 +14,19 @@ logger:
 
 # Enable Home Assistant API
 api:
-   password: "ajh14113"
+  password: !secret default_pass
 
 ota:
-   password: "ajh14113"
+  password: !secret default_pass
 
 wifi:
-   ssid: "Red5"
-   password: "8012254722"
+  ssid: !secret wifi_ssid
+  password: !secret wifi_pass
 
 # Enable fallback hotspot (captive portal) in case wifi connection fails
 #ap:
-   #ssid: "Red Guest"
-   #password: "ajh14113"
+  #ssid: !secret wifi_ssid
+  #password: !secret default_pass
 
 #captive_portal:
 
@@ -38,9 +38,9 @@ i2c:
   frequency: 400kHz
 
 #Sensors should be specified as follows
-   #platform: bmp280
-      #i2c_id: bus_a
-      #address: 0x76
+  #platform: bmp280
+    #i2c_id: bus_a
+    #address: 0x76
 
 sensor:
   - platform: custom
@@ -73,17 +73,3 @@ mqtt:
   broker: 192.168.55.200
   #username:
   #password:
-
-# sensor 1:
-#   platform: mqtt
-#   name: "Temperature"
-#   state_topic: "sht20/temperature"
-#   qos: 0
-#   unit_of_measurement: "ºC"
-
-# sensor 2:
-#   platform: mqtt
-#   name: "Humidity"
-#   state_topic: "sht20/humidity"
-#   qos: 0
-#   unit_of_measurement: "%"
