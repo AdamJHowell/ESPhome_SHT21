@@ -23,7 +23,7 @@ wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_pass
 
-# Enable fallback hotspot (captive portal) in case wifi connection fails
+# Enable fallback hotspot (captive portal) in case WiFi connection fails
 #ap:
   #ssid: !secret wifi_ssid
   #password: !secret default_pass
